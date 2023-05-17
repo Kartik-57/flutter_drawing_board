@@ -54,7 +54,7 @@ class DrawingPage extends HookWidget {
             ),
           ),
           Positioned(
-            top: kToolbarHeight + 10,
+            top: kToolbarHeight + 20,
             // left: -5,
             child: SlideTransition(
               position: Tween<Offset>(
@@ -91,10 +91,10 @@ class _CustomAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: kToolbarHeight,
+      height: kToolbarHeight + 50,
       width: double.maxFinite,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -108,11 +108,15 @@ class _CustomAppBar extends StatelessWidget {
               },
               icon: const Icon(Icons.menu),
             ),
-            const Text(
-              'Let\'s Draw',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 19,
+            const Padding(
+              padding: EdgeInsets.only(right: 40),
+              child: Text(
+                'Let\'s Draw',
+                textAlign: TextAlign.justify,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 19,
+                ),
               ),
             ),
             const SizedBox.shrink(),
