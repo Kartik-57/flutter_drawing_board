@@ -1,4 +1,10 @@
 import 'dart:ui';
+import 'dart:io';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:path_provider/path_provider.dart';
 
 import 'package:flutter/material.dart' hide Image;
 import 'package:flutter_drawing_board/main.dart';
@@ -75,7 +81,10 @@ class DrawingPage extends HookWidget {
               ),
             ),
           ),
-          _CustomAppBar(animationController: animationController),
+          _CustomAppBar(
+            animationController: animationController,
+            canvasGlobalKey: canvasGlobalKey,
+          ),
         ],
       ),
     );
@@ -84,9 +93,13 @@ class DrawingPage extends HookWidget {
 
 class _CustomAppBar extends StatelessWidget {
   final AnimationController animationController;
+  final GlobalKey canvasGlobalKey; // Add this line
 
-  const _CustomAppBar({Key? key, required this.animationController})
-      : super(key: key);
+  const _CustomAppBar({
+    Key? key,
+    required this.animationController,
+    required this.canvasGlobalKey, // Add this line
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -119,10 +132,41 @@ class _CustomAppBar extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox.shrink(),
+            IconButton(
+              onPressed: () {
+                _captureAndSaveCanvas(
+                    context); // Call the capture and save function
+              },
+              icon: const Icon(Icons.save),
+            ),
           ],
         ),
       ),
     );
+  }
+
+  void _captureAndSaveCanvas(BuildContext context) async {
+    RenderRepaintBoundary boundary = canvasGlobalKey.currentContext!
+        .findRenderObject() as RenderRepaintBoundary;
+    Image image =
+        await boundary.toImage(pixelRatio: 3.0); // Adjust pixelRatio as needed
+    ByteData? byteData = await image.toByteData(format: ImageByteFormat.png);
+    Uint8List pngBytes = byteData!.buffer.asUint8List();
+
+    final directory = await getTemporaryDirectory();
+    final imagePath = '${directory.path}/canvas_image.png';
+    await File(imagePath).writeAsBytes(pngBytes);
+    final result = await ImageGallerySaver.saveFile(imagePath);
+    if (result['isSuccess']) {
+      Fluttertoast.showToast(msg: 'Canvas saved to gallery');
+    } else {
+      Fluttertoast.showToast(msg: 'Failed to save canvas');
+    }
+    File(imagePath).delete();
+    // Save the image to gallery using platform-specific code (not shown here)
+
+    // ScaffoldMessenger.of(context).showSnackBar(
+    //   const SnackBar(content: Text('Canvas saved to gallery')),
+    // );
   }
 }
