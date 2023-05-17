@@ -301,7 +301,7 @@ class CanvasSideBar extends HookWidget {
             const Divider(),
             Center(
               child: GestureDetector(
-                onTap: () => _launchUrl('https://github.com/JideGuru'),
+                onTap: () => _launchUrl('https://github.com/Yashi-sCS'),
                 child: const Text(
                   'Made with 💕 by YS',
                   style: TextStyle(fontSize: 12),
