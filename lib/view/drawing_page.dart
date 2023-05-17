@@ -121,15 +121,12 @@ class _CustomAppBar extends StatelessWidget {
               },
               icon: const Icon(Icons.menu),
             ),
-            const Padding(
-              padding: EdgeInsets.only(right: 40),
-              child: Text(
-                'Let\'s Draw',
-                textAlign: TextAlign.justify,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 19,
-                ),
+            const Text(
+              'Let\'s Draw',
+              textAlign: TextAlign.justify,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 19,
               ),
             ),
             IconButton(
