@@ -303,7 +303,7 @@ class CanvasSideBar extends HookWidget {
               child: GestureDetector(
                 onTap: () => _launchUrl('https://github.com/JideGuru'),
                 child: const Text(
-                  'Made with 💙 by JideGuru',
+                  'Made with 💕 by YS',
                   style: TextStyle(fontSize: 12),
                 ),
               ),
